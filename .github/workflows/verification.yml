@@ -32,11 +32,11 @@ jobs:
           architecture: 'x64'
       - name: Install Requirements
         run: pip install -r requirements.txt
+      - name: Install fuzzer
+        run: pip install --extra-index-url https://gitlab.com/api/v4/projects/19904939/packages/pypi/simple pythonfuzz
       - name: Static analysis
         run: pylint --rcfile=.pylintrc *.py
       - name: Run tests
-        run: unittest tests.py
-      - name: Run tests coverage
         run: coverage run --branch tests.py
       - name: Tests report
         run: coverage report

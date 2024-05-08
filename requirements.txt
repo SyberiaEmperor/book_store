@@ -1,3 +1,2 @@
 coverage==7.5.1
 pylint==3.1.0
-pythonfuzz==1.0.10

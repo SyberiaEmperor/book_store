@@ -1,7 +1,10 @@
+# pylint: skip-file
+
 from pythonfuzz.main import PythonFuzz
+from book import *
 
 @PythonFuzz
-def BookFuzzing(buf):
+def book_fuzzing(buf):
     try:
         string = buf.decode("ascii")
         book = Book(string, string, int(string), int(string), string, string)
@@ -14,4 +17,4 @@ def BookFuzzing(buf):
 
 
 if __name__ == '__main__':
-    BookFuzzing()
+    book_fuzzing()
