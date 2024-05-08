@@ -18,7 +18,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  runt_tests:
+  run_tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -30,12 +30,16 @@ jobs:
         with:
           python-version: '3.9'
           architecture: 'x64'
-      - name: Install Reqs
+      - name: Install Requirements
         run: pip install -r requirements.txt
       - name: Static analysis
         run: pylint --rcfile=.pylintrc *.py
       - name: Run tests
-        run: coverage run tests.py
+        run: unittest tests.py
+      - name: Run tests coverage
+        run: coverage run --branch tests.py
       - name: Tests report
         run: coverage report
+      - name: Fuzzing
+        run: python3 fuzz.py --runs 100
         
