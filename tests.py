@@ -1,5 +1,6 @@
 # pylint: skip-file
 import unittest
+import datetime
 from coverage import *
 
 from book import *
@@ -26,6 +27,32 @@ class BookTests(unittest.TestCase):
    
     def test_new_book_bad_price(self):
         self.assertRaises(InvalidBookPrice, Book, "BookName", "Author", 1997, -68, "Publishing", "Detective")
+
+class CartTests(unittest.TestCase):
+    
+    def test_new_cart(self):
+        cart = Cart()
+        self.assertIsNotNone(cart)
+    
+    def test_cart_add(self):
+        cart = Cart()
+        cart.add_book(1)
+        cart.add_book(2)
+        cart.add_book(3)
+        self.assertEqual(cart.get_list(), [1,2,3])
+
+class DeliverInfoTests(unittest.TestCase):
+    
+    def test_new_deliver_info(self):
+        date_time_str = '2024-05-10 08:00:00.0'
+        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
+        di = DeliverInfo("Address", date_time, UponReceipt)
+        self.assertIsNotNone(di)
+        
+    def test_new_bad_deliver_info(self):
+        date_time_str = '1999-05-10 08:00:00.0'
+        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
+        self.assertRaises(InvalidDateTime, DeliverInfo,"Address", date_time, UponOrder)
 
 class BookStoreTests(unittest.TestCase):
     
