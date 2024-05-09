@@ -1,7 +1,11 @@
 # pylint: skip-file
 
 from pythonfuzz.main import PythonFuzz
+from datetime import *
+
 from book import *
+from cart import *
+from deliver_info import *
 
 @PythonFuzz
 def book_fuzzing(buf):
@@ -19,8 +23,8 @@ def book_fuzzing(buf):
 def deliver_info_fuzzing(buf):
     try:
         string = buf.decode("ascii")
-        date_time = datetime.datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
-        di = DeliverInfo(string, date_time, UponReceipt)
+        date_time = datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
+        di = DeliverInfo(string, date_time, Pay.UPON_RECEIPT)
     except ValueError:
         pass
     except InvalidDateTime:
@@ -42,9 +46,8 @@ def book_store_fuzzing(buf):
     cart = Cart()
     cart.add_book(0)
     cart.add_book(1)
-    date_time_str = '2024-05-10 08:00:00.0'
-    date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
-    di = DeliverInfo("Address", date_time, UponReceipt)
+    date_time = datetime.now() + timedelta(days=1)
+    di = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
     bs.deliver(cart,di)
     try:
         id = int(buf.decode("ascii"))
@@ -56,3 +59,4 @@ def book_store_fuzzing(buf):
 
 if __name__ == '__main__':
     book_fuzzing()
+    deliver_info_fuzzing()

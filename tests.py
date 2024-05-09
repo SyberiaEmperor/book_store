@@ -1,9 +1,11 @@
 # pylint: skip-file
 import unittest
-import datetime
+from datetime import *
 from coverage import *
 
 from book import *
+from cart import *
+from deliver_info import *
 
 class SimpleTest(unittest.TestCase):
 
@@ -44,15 +46,13 @@ class CartTests(unittest.TestCase):
 class DeliverInfoTests(unittest.TestCase):
     
     def test_new_deliver_info(self):
-        date_time_str = '2024-05-10 08:00:00.0'
-        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
-        di = DeliverInfo("Address", date_time, UponReceipt)
+        date_time = datetime.now() + timedelta(days=1)
+        di = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         self.assertIsNotNone(di)
         
     def test_new_bad_deliver_info(self):
-        date_time_str = '1999-05-10 08:00:00.0'
-        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
-        self.assertRaises(InvalidDateTime, DeliverInfo,"Address", date_time, UponOrder)
+        date_time = datetime.now() - timedelta(days=1)
+        self.assertRaises(InvalidDateTime, DeliverInfo,"Address", date_time, Pay.UPON_ORDER)
 
 class BookStoreTests(unittest.TestCase):
     
@@ -83,9 +83,8 @@ class BookStoreTests(unittest.TestCase):
         id = bs.add_book(book)
         cart = Cart()
         cart.add_book(id)
-        date_time_str = '2024-05-10 08:00:00.0'
-        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
-        diliver_info = DeliverInfo("Address", date_time, UponReceipt)
+        date_time = datetime.now() + timedelta(days=1)
+        diliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         bs.deliver(cart, deliver_info)
         self.assertIsNone(bs.get(id))
         
