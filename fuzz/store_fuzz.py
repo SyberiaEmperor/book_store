@@ -9,6 +9,7 @@ sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
 from book import *
 from cart import *
 from deliver_info import *
+from book_store import *
 
 @PythonFuzz
 def book_store_fuzzing(buf):

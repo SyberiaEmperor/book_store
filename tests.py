@@ -6,6 +6,7 @@ from coverage import *
 from book import *
 from cart import *
 from deliver_info import *
+from book_store import *
 
 class SimpleTest(unittest.TestCase):
 
@@ -84,7 +85,7 @@ class BookStoreTests(unittest.TestCase):
         cart = Cart()
         cart.add_book(id)
         date_time = datetime.now() + timedelta(days=1)
-        diliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
+        deliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         bs.deliver(cart, deliver_info)
         self.assertIsNone(bs.get(id))
         
@@ -94,6 +95,8 @@ class BookStoreTests(unittest.TestCase):
         id = bs.add_book(book)
         cart = Cart()
         cart.add_book(id)
+        date_time = datetime.now() + timedelta(days=1)
+        deliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         bs.deliver(cart, deliver_info)
         bs.back_book(id)
         self.assertIsNotNone(bs.get(id))
@@ -104,6 +107,8 @@ class BookStoreTests(unittest.TestCase):
         id = bs.add_book(book)
         cart = Cart()
         cart.add_book(id)
+        date_time = datetime.now() + timedelta(days=1)
+        deliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         bs.deliver(cart, deliver_info)
         self.assertRaises(InvalidBackId, bs.back_book, id+1)
 
