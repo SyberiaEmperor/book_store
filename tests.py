@@ -13,6 +13,7 @@ class BookTests(unittest.TestCase):
 
     def test_new_book(self):
         book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        self.assertIsNotNone(book)
         self.assertEqual(book.name, "BookName")
         self.assertEqual(book.author, "Author")
         self.assertEqual(book.pub_year, 1999)
@@ -25,6 +26,57 @@ class BookTests(unittest.TestCase):
    
     def test_new_book_bad_price(self):
         self.assertRaises(InvalidBookPrice, Book, "BookName", "Author", 1997, -68, "Publishing", "Detective")
+
+class BookStoreTests(unittest.TestCase):
+    
+    def test_new_book_store(self):
+        bs = BookStore()
+        self.assertIsNotNone(bs)
+        
+    def test_book_store_add(self):
+        bs = BookStore()
+        book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        id = bs.add_book(book)
+        self.assertEqual(id,0)
+        book2 = bs.get(id)
+        self.assertIsNotNone(book2)
+        self.assertEqual(book2.name, book.name)
+        
+    def test_book_store_bad_add(self):
+        bs = BookStore()
+        book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        id = bs.add_book(book)
+        self.assertEqual(id,0)
+        book2 = bs.get(id + 1)
+        self.assertIsNone(book2)
+        
+    def test_book_store_deliver(self):
+        bs = BookStore()
+        book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        id = bs.add_book(book)
+        cart = Cart()
+        cart.add_book(id)
+        bs.deliver(cart, deliver_info)
+        self.assertIsNone(bs.get(id))
+        
+    def test_book_store_back(self):
+        bs = BookStore()
+        book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        id = bs.add_book(book)
+        cart = Cart()
+        cart.add_book(id)
+        bs.deliver(cart, deliver_info)
+        bs.back_book(id)
+        self.assertIsNotNone(bs.get(id))
+        
+    def test_book_store_bad_back(self):
+        bs = BookStore()
+        book = Book("BookName", "Author", 1999, 100, "Publishing", "Detective")
+        id = bs.add_book(book)
+        cart = Cart()
+        cart.add_book(id)
+        bs.deliver(cart, deliver_info)
+        self.assertRaises(InvalidBackId, bs.back_book, id+1)
 
 if __name__ == '__main__': # pragma: no cover
     unittest.main()
