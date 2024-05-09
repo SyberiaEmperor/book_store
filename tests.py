@@ -83,6 +83,9 @@ class BookStoreTests(unittest.TestCase):
         id = bs.add_book(book)
         cart = Cart()
         cart.add_book(id)
+        date_time_str = '2024-05-10 08:00:00.0'
+        date_time = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
+        diliver_info = DeliverInfo("Address", date_time, UponReceipt)
         bs.deliver(cart, deliver_info)
         self.assertIsNone(bs.get(id))
         
