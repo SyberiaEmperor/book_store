@@ -3,32 +3,12 @@
 from pythonfuzz.main import PythonFuzz
 from datetime import *
 
+import os, sys
+sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]))
+
 from book import *
 from cart import *
 from deliver_info import *
-
-@PythonFuzz
-def book_fuzzing(buf):
-    try:
-        string = buf.decode("ascii")
-        book = Book(string, string, int(string), int(string), string, string)
-    except ValueError:
-        pass
-    except InvalidBookPrice:
-        pass
-    except InvalidBookYear:
-        pass
-
-@PythonFuzz
-def deliver_info_fuzzing(buf):
-    try:
-        string = buf.decode("ascii")
-        date_time = datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
-        di = DeliverInfo(string, date_time, Pay.UPON_RECEIPT)
-    except ValueError:
-        pass
-    except InvalidDateTime:
-        pass
 
 @PythonFuzz
 def book_store_fuzzing(buf):
@@ -56,7 +36,6 @@ def book_store_fuzzing(buf):
         pass
     except InvalidBackId:
         pass   
-
+    
 if __name__ == '__main__':
-    book_fuzzing()
-    deliver_info_fuzzing()
+    book_store_fuzzing()

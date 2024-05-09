@@ -41,5 +41,5 @@ jobs:
       - name: Tests report
         run: coverage report
       - name: Fuzzing
-        run: python3 fuzz.py --runs 100
+        run: python3 fuzz/*.py --runs 100
         
