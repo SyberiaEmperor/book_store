@@ -69,6 +69,7 @@ class BookStoreTests(unittest.TestCase):
         book2 = bs.get(id)
         self.assertIsNotNone(book2)
         self.assertEqual(book2.name, book.name)
+        self.assertEqual(id,bs.add_book(book))
         
     def test_book_store_bad_add(self):
         bs = BookStore()
@@ -84,6 +85,7 @@ class BookStoreTests(unittest.TestCase):
         id = bs.add_book(book)
         cart = Cart()
         cart.add_book(id)
+        cart.add_book(100) # must be ignored when deliver
         date_time = datetime.now() + timedelta(days=1)
         deliver_info = DeliverInfo("Address", date_time, Pay.UPON_RECEIPT)
         bs.deliver(cart, deliver_info)

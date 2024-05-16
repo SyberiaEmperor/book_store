@@ -27,7 +27,7 @@ class BookStore:
         return None
         
     def deliver(self, cart: Cart, info: DeliverInfo):
-        print(info)
+        # pylint: disable=unused-argument
         book_list = cart.get_list()
         for book_id in book_list:
             if not self.get(book_id) is None:

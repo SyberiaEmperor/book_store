@@ -32,7 +32,12 @@ def book_store_fuzzing(buf):
     bs.deliver(cart,di)
     try:
         id = int(buf.decode("ascii"))
-        bs.back(id)
+        string = buf.decode("ascii")
+        book = Book(string, string, int(string), int(string), string, string)
+        ti = bs.add_book(book)
+        cart.add_book(ti)
+        bs.deliver(cart, di)
+        bs.back_book(id)
     except ValueError:
         pass
     except InvalidBackId:

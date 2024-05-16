@@ -48,6 +48,10 @@ jobs:
         run: coverage run --branch tests.py
       - name: Tests report
         run: coverage report
+      - name: Clear tests report
+        run: coverage erase
       - name: Fuzzing
-        run: python3 fuzz/*.py --runs 100
+        run: python3 ./fuzz/fuzz_init.py
+      - name: Fuzzing report
+        run: coverage report --omit=./fuzz/*_fuzz.py
         
